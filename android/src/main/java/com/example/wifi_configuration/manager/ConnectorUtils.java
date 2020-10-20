@@ -165,10 +165,10 @@ public final class ConnectorUtils {
             return connectToConfiguredNetwork(wifiManager, config, true);
         }
 
-        if (!cleanPreviousConfiguration(wifiManager, config)) {
-            WifiUtils.wifiLog("COULDN'T REMOVE PREVIOUS CONFIG, CONNECTING TO EXISTING ONE");
-            return connectToConfiguredNetwork(wifiManager, config, true);
-        }
+        // if (!cleanPreviousConfiguration(wifiManager, config)) {
+        //     WifiUtils.wifiLog("COULDN'T REMOVE PREVIOUS CONFIG, CONNECTING TO EXISTING ONE");
+        //     return connectToConfiguredNetwork(wifiManager, config, true);
+        // }
 
         final String security = ConfigSecurities.getSecurity(scanResult);
 
