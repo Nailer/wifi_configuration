@@ -239,7 +239,8 @@ public class WifiConfigurationPlugin implements MethodCallHandler {
         for( WifiConfiguration i : list ) {
             Log.e("WifiUtils", "This SSID " + i.SSID);
             Log.e("LENGTH", String.valueOf(i.SSID.length()));
-            if(i.SSID == SSID) {
+            Log.e("NETWORKID", String.valueOf(i.networkId));
+            if(i.SSID.contains(SSID)) {
             Log.e("WifiUtils", "Disconnecting from: " + i.SSID);
             wifiManager.disableNetwork(i.networkId);
             wifiManager.disconnect();
