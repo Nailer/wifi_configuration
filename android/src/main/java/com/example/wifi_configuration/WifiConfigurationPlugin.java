@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.net.wifi.WifiConfiguration
 
 import androidx.core.app.ActivityCompat;
 
@@ -231,7 +232,6 @@ public class WifiConfigurationPlugin implements MethodCallHandler {
 
 
     private static void disconnectFromWifi(final String SSID){
-        Log.d("WifiUtils", "Disconnecting from SSID: ", SSID);
         WifiManager wifiManager = (WifiManager) Constant.context.getSystemService (Context.WIFI_SERVICE);
         List<WifiConfiguration> list = wifiManager.getConfiguredNetworks();
         for( WifiConfiguration i : list ) {
