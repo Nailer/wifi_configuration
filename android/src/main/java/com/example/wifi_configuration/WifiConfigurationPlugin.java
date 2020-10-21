@@ -170,7 +170,7 @@ public class WifiConfigurationPlugin implements MethodCallHandler {
             requestLocationPermissionForConnectedWifiName();
 
         } else if (Constant.methodCalled.method.equals("disconnectFromWifi")) {
-            disconnectFromWifi();
+            disconnectFromWifi(Constant.methodCalled.argument("ssid"));
 
         }
     }
@@ -230,12 +230,21 @@ public class WifiConfigurationPlugin implements MethodCallHandler {
     }
 
 
-    private static void disconnectFromWifi(){
+    private static void disconnectFromWifi(final String SSID){
+        Log.d("WifiUtils", "Disconnecting from SSID: ", SSID);
         WifiManager wifiManager = (WifiManager) Constant.context.getSystemService (Context.WIFI_SERVICE);
-        wifiManager.disconnect();
-        Log.d("WifiUtils", "Disconnecting");
-        wifiManager.removeNetworkSuggestions(Collections.emptyList());
-        Log.d("WifiUtils", "Removing Suggestions");
+        List<WifiConfiguration> list = wifiManager.getConfiguredNetworks();
+        for( WifiConfiguration i : list ) {
+            if(i.SSID == SSID) {
+            Log.e("Disconnecting from ", i.SSID);
+            wifiManager.disableNetwork(i.networkId);
+            wifiManager.disconnect();
+              
+            break;
+         }
+        }           
+        // wifiManager.removeNetworkSuggestions(Collections.emptyList());
+        // Log.d("WifiUtils", "Removing Suggestions");
     }
 
 
