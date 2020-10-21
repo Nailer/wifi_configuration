@@ -231,12 +231,14 @@ public class WifiConfigurationPlugin implements MethodCallHandler {
     }
 
 
-    private static void disconnectFromWifi(final String SSID){
-        Log.e("WifiUtils", "Disconnecting function hit");
+    private static void disconnectFromWifi(String SSID){
+        Log.e("WifiUtils", "Disconnecting function hit with SSID:" + SSID);
+        Log.e("LENGTH", SSID.length());
         WifiManager wifiManager = (WifiManager) Constant.context.getSystemService (Context.WIFI_SERVICE);
         List<WifiConfiguration> list = wifiManager.getConfiguredNetworks();
         for( WifiConfiguration i : list ) {
             Log.e("WifiUtils", "This SSID " + i.SSID);
+            Log.e("LENGTH", i.SSID.length());
             if(i.SSID == SSID) {
             Log.e("WifiUtils", "Disconnecting from: " + i.SSID);
             wifiManager.disableNetwork(i.networkId);
