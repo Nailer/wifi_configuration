@@ -233,6 +233,9 @@ public class WifiConfigurationPlugin implements MethodCallHandler {
     private static void disconnectFromWifi(){
         WifiManager wifiManager = (WifiManager) Constant.context.getSystemService (Context.WIFI_SERVICE);
         wifiManager.disconnect();
+        Log.d("WifiUtils", "Disconnecting");
+        wifiManager.removeNetworkSuggestions([]);
+        Log.d("WifiUtils", "Removing Suggestions");
     }
 
 
