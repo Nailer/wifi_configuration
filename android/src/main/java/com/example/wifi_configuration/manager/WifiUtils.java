@@ -140,11 +140,25 @@ public final class WifiUtils implements WifiConnectorBuilder,
     public List<ScanResult> getScanWifiResult(){
 
         if (mWifiManager != null && mWifiManager.getScanResults() != null && mWifiManager.getScanResults().size() > 0) {
-            mWifiManager.startScan();
+            // mWifiManager.startScan();
             return mWifiManager.getScanResults();
         }
         return null;
     }
+
+    private void getScanWifiResultTest() {
+        wifiManager.startScan();
+        return registerReceiver(wifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+      }
+    
+    BroadcastReceiver wifiReceiver = new BroadcastReceiver() {
+        @Override
+        public List<ScanResult> onReceive(Context context, Intent intent) {
+          results = wifiManager.getScanResults();
+          unregisterReceiver(this);
+          return results;
+        };
+      }
 
     
     private final WifiConnectionCallback mWifiConnectionCallback = new WifiConnectionCallback() {
