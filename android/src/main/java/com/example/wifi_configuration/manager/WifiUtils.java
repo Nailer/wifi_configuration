@@ -140,7 +140,6 @@ public final class WifiUtils implements WifiConnectorBuilder,
     public List<ScanResult> getScanWifiResult(){
 
         if (mWifiManager != null && mWifiManager.getScanResults() != null && mWifiManager.getScanResults().size() > 0) {
-            // mWifiManager.startScan();
             return mWifiManager.getScanResults();
         }
         return null;
