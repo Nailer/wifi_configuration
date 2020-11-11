@@ -85,7 +85,7 @@ public final class WifiUtils implements WifiConnectorBuilder,
             wifiLog("OnReceive in wifiReceiver");
             results = mWifiManager.getScanResults();
             resultsUpdated = true;
-            notify();
+            resultsUpdated.notify();
             wifiLog("resultsUpdated sat true");
             unregisterReceiver(context, this);
         };
@@ -170,7 +170,7 @@ public final class WifiUtils implements WifiConnectorBuilder,
 
         while(!resultsUpdated){
             wifiLog("Waiting for resultsUpdated");
-            wait();
+            resultsUpdated.wait();
         }
         return results;
       }
