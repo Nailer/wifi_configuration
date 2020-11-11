@@ -351,7 +351,7 @@ public final class WifiUtils implements WifiConnectorBuilder,
             results = mWifiManager.getScanResults();
             resultsUpdated = true;
             unregisterReceiver(this);
-        }
+        };
       }
       
 }
