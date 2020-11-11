@@ -170,7 +170,7 @@ public final class WifiUtils implements WifiConnectorBuilder,
 
         while(!resultsUpdated){
             wifiLog("Waiting for resultsUpdated");
-            Thread.sleep(1000);
+            sleep(1000);
         }
   
         return results;
