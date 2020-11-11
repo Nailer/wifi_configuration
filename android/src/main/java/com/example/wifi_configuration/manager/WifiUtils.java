@@ -73,6 +73,12 @@ public final class WifiUtils implements WifiConnectorBuilder,
     
     private ConnectionWpsListener mConnectionWpsListener;
 
+    private boolean resultsUpdated = false;
+
+    private List<ScanResult> results;
+
+
+
     
     private final WifiStateCallback mWifiStateCallback = new WifiStateCallback() {
         @Override
@@ -145,19 +151,24 @@ public final class WifiUtils implements WifiConnectorBuilder,
         return null;
     }
 
-    // private void getScanWifiResultTest() {
-    //     wifiManager.startScan();
-    //     return registerReceiver(wifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-    //   }
+    private List<ScanResult> getScanWifiResultTest() {
+        wifiManager.startScan();
+        registerReceiver(wifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+
+        while(!resultsUpdated){
+            wifiLog("Waiting for resultsUpdated");
+        }
+        return results;
+      }
     
-    // BroadcastReceiver wifiReceiver = new BroadcastReceiver() {
-    //     @Override
-    //     public List<ScanResult> onReceive(Context context, Intent intent) {
-    //       results = wifiManager.getScanResults();
-    //       unregisterReceiver(this);
-    //       return results;
-    //     };
-    //   }
+    BroadcastReceiver wifiReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            results = wifiManager.getScanResults();
+            resultsUpdated = true;
+            unregisterReceiver(this);
+        };
+      }
 
     
     private final WifiConnectionCallback mWifiConnectionCallback = new WifiConnectionCallback() {
