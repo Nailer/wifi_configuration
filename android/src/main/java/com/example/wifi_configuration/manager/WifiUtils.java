@@ -153,7 +153,7 @@ public final class WifiUtils implements WifiConnectorBuilder,
 
     private List<ScanResult> getScanWifiResultTest() {
         wifiManager.startScan();
-        registerReceiver(wifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+        // registerReceiver(wifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 
         while(!resultsUpdated){
             wifiLog("Waiting for resultsUpdated");
