@@ -84,7 +84,7 @@ public final class WifiUtils implements WifiConnectorBuilder,
         public void onReceive(Context context, Intent intent) {
             results = mWifiManager.getScanResults();
             resultsUpdated = true;
-            unregisterReceiver(this);
+            unregisterReceiver(context, this);
         };
       };
 
