@@ -1,5 +1,7 @@
 package com.example.wifi_configuration.manager;
 
+import android.content.BroadcastReceiver;
+import android.content.Intent;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.net.wifi.ScanResult;
@@ -153,7 +155,7 @@ public final class WifiUtils implements WifiConnectorBuilder,
 
     private List<ScanResult> getScanWifiResultTest() {
         mWifiManager.startScan();
-        // registerReceiver(wifiReceiver, new IntentFilter(mWifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+        registerReceiver(wifiReceiver, new IntentFilter(mWifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 
         while(!resultsUpdated){
             wifiLog("Waiting for resultsUpdated");
@@ -161,15 +163,7 @@ public final class WifiUtils implements WifiConnectorBuilder,
         return results;
       }
     
-    // BroadcastReceiver wifiReceiver = new BroadcastReceiver() {
-    //     @Override
-    //     public void onReceive(Context context, Intent intent) {
-    //         results = mWifiManager.getScanResults();
-    //         resultsUpdated = true;
-    //         unregisterReceiver(this);
-    //     };
-    //   }
-      
+
 
     
     private final WifiConnectionCallback mWifiConnectionCallback = new WifiConnectionCallback() {
@@ -350,4 +344,14 @@ public final class WifiUtils implements WifiConnectorBuilder,
         }
         wifiLog("WiFi Disabled");
     }
+
+    BroadcastReceiver wifiReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            results = mWifiManager.getScanResults();
+            resultsUpdated = true;
+            unregisterReceiver(this);
+        }
+      }
+      
 }
