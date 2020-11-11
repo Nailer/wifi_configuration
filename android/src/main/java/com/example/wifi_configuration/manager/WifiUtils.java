@@ -161,15 +161,15 @@ public final class WifiUtils implements WifiConnectorBuilder,
         return results;
       }
     
-    BroadcastReceiver wifiReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            results = wifiManager.getScanResults();
-            resultsUpdated = true;
-            unregisterReceiver(this);
-        };
-      }
-    }
+    // BroadcastReceiver wifiReceiver = new BroadcastReceiver() {
+    //     @Override
+    //     public void onReceive(Context context, Intent intent) {
+    //         results = wifiManager.getScanResults();
+    //         resultsUpdated = true;
+    //         unregisterReceiver(this);
+    //     };
+    //   }
+      
 
     
     private final WifiConnectionCallback mWifiConnectionCallback = new WifiConnectionCallback() {
