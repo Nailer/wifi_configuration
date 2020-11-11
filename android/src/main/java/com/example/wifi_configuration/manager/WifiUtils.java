@@ -79,11 +79,7 @@ public final class WifiUtils implements WifiConnectorBuilder,
 
     private List<ScanResult> results;
 
-    public BroadcastReceiver wifiReceiver;
 
-
-
-    
     private final WifiStateCallback mWifiStateCallback = new WifiStateCallback() {
         @Override
         public void onWifiEnabled() {
@@ -156,6 +152,15 @@ public final class WifiUtils implements WifiConnectorBuilder,
     }
 
     private List<ScanResult> getScanWifiResultTest() {
+        BroadcastReceiver wifiReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                results = mWifiManager.getScanResults();
+                resultsUpdated = true;
+                unregisterReceiver(this);
+            };
+          }
+
         mWifiManager.startScan();
         registerReceiver(wifiReceiver, new IntentFilter(mWifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 
@@ -346,14 +351,5 @@ public final class WifiUtils implements WifiConnectorBuilder,
         }
         wifiLog("WiFi Disabled");
     }
-
-    public BroadcastReceiver wifiReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            results = mWifiManager.getScanResults();
-            resultsUpdated = true;
-            unregisterReceiver(this);
-        };
-      }
       
 }
