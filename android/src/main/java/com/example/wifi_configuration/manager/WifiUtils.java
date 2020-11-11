@@ -24,7 +24,7 @@ import com.example.wifi_configuration.state.WifiStateReceiver;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent;
+import java.util.concurrent.CountDownLatch;
 
 import static com.example.wifi_configuration.manager.ConnectorUtils.cleanPreviousConfiguration;
 import static com.example.wifi_configuration.manager.ConnectorUtils.connectToWifi;
