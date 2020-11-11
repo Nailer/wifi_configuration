@@ -217,10 +217,10 @@ public class WifiConfigurationPlugin implements MethodCallHandler {
      */
     private  static List<String> getAvailableWifiList() {
         List<String> wifiList = new ArrayList<String>();
-        if (wifiUtils.getScanWifiResult() != null){
-            Log.d("WifiResults-->", wifiUtils.getScanWifiResult()+"");
+        if (wifiUtils.getScanWifiResultTest() != null){
+            Log.d("WifiResults-->", wifiUtils.getScanWifiResultTest()+"");
 
-            for (ScanResult wifiName : wifiUtils.getScanWifiResult()
+            for (ScanResult wifiName : wifiUtils.getScanWifiResultTest()
             ) {
                 Log.d("WifiUtils", wifiName.SSID);
                 wifiList.add(wifiName.SSID);
