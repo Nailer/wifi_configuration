@@ -79,6 +79,8 @@ public final class WifiUtils implements WifiConnectorBuilder,
 
     private List<ScanResult> results;
 
+    public BroadcastReceiver wifiReceiver;
+
 
 
     
