@@ -160,7 +160,7 @@ public final class WifiUtils implements WifiConnectorBuilder,
         return null;
     }
 
-    private List<ScanResult> getScanWifiResultTest() {
+    public List<ScanResult> getScanWifiResultTest() {
 
         mWifiManager.startScan();
         registerReceiver(mContext, wifiReceiver, new IntentFilter(mWifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
