@@ -345,7 +345,7 @@ public final class WifiUtils implements WifiConnectorBuilder,
         wifiLog("WiFi Disabled");
     }
 
-    BroadcastReceiver wifiReceiver = new BroadcastReceiver() {
+    public BroadcastReceiver wifiReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             results = mWifiManager.getScanResults();
