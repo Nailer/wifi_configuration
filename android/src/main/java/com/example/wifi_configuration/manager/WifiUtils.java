@@ -24,7 +24,6 @@ import com.example.wifi_configuration.state.WifiStateReceiver;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
 
 import static com.example.wifi_configuration.manager.ConnectorUtils.cleanPreviousConfiguration;
 import static com.example.wifi_configuration.manager.ConnectorUtils.connectToWifi;
@@ -76,11 +75,10 @@ public final class WifiUtils implements WifiConnectorBuilder,
     
     private ConnectionWpsListener mConnectionWpsListener;
 
-    private boolean resultsUpdated = false;
+    private volatile boolean resultsUpdated = false;
 
     private List<ScanResult> results;
 
-    public final CountDownLatch latch = new CountDownLatch(1);
 
     private BroadcastReceiver wifiReceiver = new BroadcastReceiver() {
         @Override
@@ -88,7 +86,6 @@ public final class WifiUtils implements WifiConnectorBuilder,
             wifiLog("OnReceive in wifiReceiver");
             results = mWifiManager.getScanResults();
             resultsUpdated = true;
-            latch.countDown();
             wifiLog("resultsUpdated sat true");
             unregisterReceiver(context, this);
         };
@@ -171,11 +168,11 @@ public final class WifiUtils implements WifiConnectorBuilder,
         mWifiManager.startScan();
         registerReceiver(mContext, wifiReceiver, new IntentFilter(mWifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 
-        // while(!resultsUpdated){
-        //     wifiLog("Waiting for resultsUpdated");
-        //     resultsUpdated.wait();
-        // }
-        latch.await();
+        while(!resultsUpdated){
+            wifiLog("Waiting for resultsUpdated");
+            Thread.sleep(1000)
+        }
+  
         return results;
       }
     
