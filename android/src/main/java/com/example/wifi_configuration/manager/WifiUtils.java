@@ -169,6 +169,7 @@ public final class WifiUtils implements WifiConnectorBuilder,
             unregisterReceiver(this);
         };
       }
+    }
 
     
     private final WifiConnectionCallback mWifiConnectionCallback = new WifiConnectionCallback() {
