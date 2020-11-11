@@ -152,8 +152,8 @@ public final class WifiUtils implements WifiConnectorBuilder,
     }
 
     private List<ScanResult> getScanWifiResultTest() {
-        wifiManager.startScan();
-        // registerReceiver(wifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+        mWifiManager.startScan();
+        // registerReceiver(wifiReceiver, new IntentFilter(mWifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 
         while(!resultsUpdated){
             wifiLog("Waiting for resultsUpdated");
@@ -164,7 +164,7 @@ public final class WifiUtils implements WifiConnectorBuilder,
     // BroadcastReceiver wifiReceiver = new BroadcastReceiver() {
     //     @Override
     //     public void onReceive(Context context, Intent intent) {
-    //         results = wifiManager.getScanResults();
+    //         results = mWifiManager.getScanResults();
     //         resultsUpdated = true;
     //         unregisterReceiver(this);
     //     };
