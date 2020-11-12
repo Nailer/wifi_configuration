@@ -175,7 +175,7 @@ public final class WifiUtils implements WifiConnectorBuilder,
         //     wifiLog("Waiting for resultsUpdated");
         // }
   
-        return results;
+        // return results;
       }
     
     
