@@ -86,17 +86,17 @@ public final class WifiUtils implements WifiConnectorBuilder,
 
     private BroadcastReceiver wifiReceiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(Context context, Intent intent) throws InterruptedException {
             wifiLog("OnReceive in wifiReceiver");
             // results = mWifiManager.getScanResults();
             // resultsUpdated = true;
-            try {
+            // try {
 
                 resultQueue.put(mWifiManager.getScanResults());
-            }
-            catch(InterruptedException e) {
-                wifiLog("InterruptedException on put");
-            }
+            // }
+            // catch(InterruptedException e) {
+            //     wifiLog("InterruptedException on put");
+            // }
             
             
             unregisterReceiver(context, this);
@@ -175,21 +175,21 @@ public final class WifiUtils implements WifiConnectorBuilder,
         return null;
     }
 
-    public List<ScanResult> getScanWifiResultTest() {
+    public List<ScanResult> getScanWifiResultTest() throws InterruptedException {
 
         mWifiManager.startScan();
         registerReceiver(mContext, wifiReceiver, new IntentFilter(mWifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
         wifiLog("Waiting for results");
         
 
-        try {
+        // try {
 
             return resultQueue.take();
-        }
-        catch(InterruptedException e) {
-            wifiLog("InterruptedException on put");
-            return null;
-        }
+        // }
+        // catch(InterruptedException e) {
+        //     wifiLog("InterruptedException on put");
+        //     return null;
+        // }
 
 
 
