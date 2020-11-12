@@ -90,7 +90,15 @@ public final class WifiUtils implements WifiConnectorBuilder,
             wifiLog("OnReceive in wifiReceiver");
             // results = mWifiManager.getScanResults();
             // resultsUpdated = true;
-            resultQueue.put(mWifiManager.getScanResults());
+            try {
+
+                resultQueue.put(mWifiManager.getScanResults());
+            }
+            catch(InterruptedException e) {
+                wifiLog("InterruptedException on put");
+            }
+            
+            
             unregisterReceiver(context, this);
         };
       };
@@ -172,7 +180,19 @@ public final class WifiUtils implements WifiConnectorBuilder,
         mWifiManager.startScan();
         registerReceiver(mContext, wifiReceiver, new IntentFilter(mWifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
         wifiLog("Waiting for results");
-        return resultQueue.take();
+        
+
+        try {
+
+            return resultQueue.take();
+        }
+        catch(InterruptedException e) {
+            wifiLog("InterruptedException on put");
+            return null;
+        }
+
+
+
         // while(!resultsUpdated){
         //     wifiLog("Waiting for resultsUpdated");
         // }
