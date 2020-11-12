@@ -75,18 +75,20 @@ public final class WifiUtils implements WifiConnectorBuilder,
     
     private ConnectionWpsListener mConnectionWpsListener;
 
-    private volatile boolean resultsUpdated = false;
+    // private volatile boolean resultsUpdated = false;
 
-    private List<ScanResult> results;
+    // private List<ScanResult> results;
+
+    private BlockingQueue<List<ScanResult>> resultQueue = new LinkedBlockingQueue<>();
 
 
     private BroadcastReceiver wifiReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             wifiLog("OnReceive in wifiReceiver");
-            results = mWifiManager.getScanResults();
-            resultsUpdated = true;
-            wifiLog("resultsUpdated sat true");
+            // results = mWifiManager.getScanResults();
+            // resultsUpdated = true;
+            resultQueue.put(mWifiManager.getScanResults());
             unregisterReceiver(context, this);
         };
       };
@@ -167,11 +169,11 @@ public final class WifiUtils implements WifiConnectorBuilder,
 
         mWifiManager.startScan();
         registerReceiver(mContext, wifiReceiver, new IntentFilter(mWifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-
-        while(!resultsUpdated){
-            wifiLog("Waiting for resultsUpdated");
-            sleep(1000);
-        }
+        wifiLog("Waiting for results");
+        return resultQueue.take();
+        // while(!resultsUpdated){
+        //     wifiLog("Waiting for resultsUpdated");
+        // }
   
         return results;
       }
