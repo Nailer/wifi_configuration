@@ -179,10 +179,9 @@ public final class WifiUtils implements WifiConnectorBuilder,
         mWifiManager.startScan();
         wifiLog("Waiting for results");
         
-
         try {
-        wifiLog("Taking result queue");
-        return resultQueue.take();
+            wifiLog("Taking result queue");
+            return resultQueue.take();
         }
         catch(InterruptedException e) {
             wifiLog("InterruptedException on put");
