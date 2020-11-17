@@ -174,6 +174,10 @@ public class WifiConfigurationPlugin implements MethodCallHandler {
             disconnectFromWifi(Constant.methodCalled.argument("ssid"));
 
         }
+        else if (Constant.methodCalled.method.equals("startWifiScan")) {
+            startWifiScan();
+
+        }
     }
 
 
@@ -243,6 +247,11 @@ public class WifiConfigurationPlugin implements MethodCallHandler {
             break;
          }
         }           
+    }
+
+    private static void startWifiScan(){
+        wifiUtils.startScanForWifi();
+      
     }
 
 

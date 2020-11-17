@@ -56,6 +56,10 @@ class WifiConfiguration {
     }
   }
 
+  static Future<void> startWifiScan() async {
+    await _channel.invokeMethod('startWifiScan');
+  }
+
   static Future<void> disconnectFromWifi(String ssid) async {
     await _channel
         .invokeMethod('disconnectFromWifi', <String, dynamic>{"ssid": ssid});
