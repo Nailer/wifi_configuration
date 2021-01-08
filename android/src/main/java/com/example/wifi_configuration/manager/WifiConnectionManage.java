@@ -82,6 +82,7 @@ public class WifiConnectionManage {
     private void connectWiFi(final Activity activity,
                              final String ssid, ScanResult scanResult, final Context context, String password) {
         Log.e("wifi_configuration_WifiConnection", "with ssid " + ssid + "and password " + password);
+        Log.e("wifi_configuration_WifiConnection", "THIS IS THE SSID: " + ssid);
         try {
             String networkSSID = scanResult.SSID;
             String networkPass = password;
