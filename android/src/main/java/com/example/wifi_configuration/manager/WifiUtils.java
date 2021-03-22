@@ -1,5 +1,7 @@
 package com.example.wifi_configuration.manager;
 
+import android.content.BroadcastReceiver;
+import android.content.Intent;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.net.wifi.ScanResult;
@@ -22,6 +24,8 @@ import com.example.wifi_configuration.state.WifiStateReceiver;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import static com.example.wifi_configuration.manager.ConnectorUtils.cleanPreviousConfiguration;
 import static com.example.wifi_configuration.manager.ConnectorUtils.connectToWifi;
@@ -73,7 +77,31 @@ public final class WifiUtils implements WifiConnectorBuilder,
     
     private ConnectionWpsListener mConnectionWpsListener;
 
-    
+    // private volatile boolean resultsUpdated = false;
+
+    // private List<ScanResult> results;
+
+    private BlockingQueue<List<ScanResult>> resultQueue = new LinkedBlockingQueue<>();
+
+
+    private BroadcastReceiver wifiReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            wifiLog("OnReceive in wifiReceiver");
+            try {
+                wifiLog("putting in resultqueue");
+            resultQueue.put(mWifiManager.getScanResults());
+            }
+            catch(InterruptedException e) {
+                wifiLog("InterruptedException on put");
+            }
+            
+            
+            unregisterReceiver(context, this);
+        };
+      };
+
+
     private final WifiStateCallback mWifiStateCallback = new WifiStateCallback() {
         @Override
         public void onWifiEnabled() {
@@ -145,6 +173,34 @@ public final class WifiUtils implements WifiConnectorBuilder,
         return null;
     }
 
+    public void startScanForWifi(){
+        mWifiManager.startScan();
+    }
+
+    public List<ScanResult> getScanWifiResultTest() {
+
+        registerReceiver(mContext, wifiReceiver, new IntentFilter(mWifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+        mWifiManager.startScan();
+        wifiLog("Waiting for results");
+        
+        try {
+            wifiLog("Taking result queue");
+            return resultQueue.take();
+        }
+        catch(InterruptedException e) {
+            wifiLog("InterruptedException on put");
+            return null;
+        }
+
+
+
+        // while(!resultsUpdated){
+        //     wifiLog("Waiting for resultsUpdated");
+        // }
+  
+        // return results;
+      }
+    
     
     private final WifiConnectionCallback mWifiConnectionCallback = new WifiConnectionCallback() {
         @Override
@@ -324,4 +380,5 @@ public final class WifiUtils implements WifiConnectorBuilder,
         }
         wifiLog("WiFi Disabled");
     }
+      
 }

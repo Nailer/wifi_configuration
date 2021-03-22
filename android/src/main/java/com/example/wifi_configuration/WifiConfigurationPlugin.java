@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.net.wifi.WifiConfiguration;
 
 import androidx.core.app.ActivityCompat;
 
@@ -169,6 +170,13 @@ public class WifiConfigurationPlugin implements MethodCallHandler {
         } else if (Constant.methodCalled.method.equals("connectedToWifi")) {
             requestLocationPermissionForConnectedWifiName();
 
+        } else if (Constant.methodCalled.method.equals("disconnectFromWifi")) {
+            disconnectFromWifi(Constant.methodCalled.argument("ssid"));
+
+        }
+        else if (Constant.methodCalled.method.equals("startWifiScan")) {
+            startWifiScan();
+
         }
     }
 
@@ -226,6 +234,25 @@ public class WifiConfigurationPlugin implements MethodCallHandler {
         return wifiList;
     }
 
+
+    private static void disconnectFromWifi(String SSID){
+        WifiManager wifiManager = (WifiManager) Constant.context.getSystemService (Context.WIFI_SERVICE);
+        List<WifiConfiguration> list = wifiManager.getConfiguredNetworks();
+        for( WifiConfiguration i : list ) {
+            if(i.SSID.contains(SSID)) {
+            Log.e("WifiUtils", "Disconnecting from: " + i.SSID);
+            wifiManager.disableNetwork(i.networkId);
+            wifiManager.disconnect();
+              
+            break;
+         }
+        }           
+    }
+
+    private static void startWifiScan(){
+        wifiUtils.startScanForWifi();
+      
+    }
 
 
     private void requestLocationPermission() {
